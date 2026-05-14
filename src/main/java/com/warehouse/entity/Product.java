@@ -14,10 +14,19 @@ import lombok.Setter;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "proId")
     private Long id;
 
     private String serialNumber;
 
     private String status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", referencedColumnName = "catId")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "invoice_id", referencedColumnName = "invId")
+    private Invoice invoice;
 }

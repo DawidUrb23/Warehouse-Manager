@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Setter
@@ -15,13 +17,20 @@ import java.time.LocalDate;
 public class Invoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invId")
     private Long id;
 
     private String invoiceNumber;
 
     private LocalDate dateOfIssue;
 
-    private double totalSum;
+    private BigDecimal totalSum;
 
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Product> products;
+
+    @JoinColumn(name = "customer_id", referencedColumnName = "cusId")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private  Customer customer;
 }
