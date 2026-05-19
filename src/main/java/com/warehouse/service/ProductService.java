@@ -1,5 +1,7 @@
 package com.warehouse.service;
 
+import com.warehouse.dto.ProductDto;
+import com.warehouse.entity.Product;
 import com.warehouse.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,5 +16,11 @@ public class ProductService {
     public ProductService(ModelMapper modelMapper, ProductRepository productRepository){
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+    }
+
+    public ProductDto createProduct(ProductDto productDto) {
+        Product productToSave = modelMapper.map(productDto, Product.class);
+        Product productSaved = productRepository.save(productToSave);
+        return modelMapper.map(productSaved, ProductDto.class);
     }
 }

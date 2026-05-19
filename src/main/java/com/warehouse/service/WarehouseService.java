@@ -1,5 +1,7 @@
 package com.warehouse.service;
 
+import com.warehouse.dto.WarehouseDto;
+import com.warehouse.entity.Warehouse;
 import com.warehouse.repository.ProductRepository;
 import com.warehouse.repository.WarehouseRepository;
 import org.modelmapper.ModelMapper;
@@ -18,4 +20,9 @@ public class WarehouseService {
     }
 
 
+    public WarehouseDto createWarehouse(WarehouseDto warehouseDto) {
+        Warehouse warehouseToSave = modelMapper.map(warehouseDto, Warehouse.class);
+        Warehouse warehouseSaved = warehouseRepository.save(warehouseToSave);
+        return modelMapper.map(warehouseSaved, WarehouseDto.class);
+    }
 }
