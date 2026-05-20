@@ -20,4 +20,10 @@ public class CategoryController {
     public CategoryDto createCategory(@RequestBody CategoryDto categoryDto){
         return categoryService.createCategory(categoryDto);
     }
+
+    @GetMapping("/category/{id}")
+    public CategoryDto getCategoryById(Long id){
+        return categoryService.getCategoryById(id);
+    }
+
 }

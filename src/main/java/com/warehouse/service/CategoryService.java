@@ -4,6 +4,7 @@ import com.warehouse.dto.CategoryDto;
 import com.warehouse.entity.Category;
 import com.warehouse.repository.CategoryRepository;
 import com.warehouse.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -27,4 +28,9 @@ public class CategoryService {
     }
 
 
+    public CategoryDto getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find this id" + id));
+        return modelMapper.map(category, CategoryDto.class);
+    }
 }

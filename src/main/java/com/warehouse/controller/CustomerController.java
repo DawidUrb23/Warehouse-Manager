@@ -3,10 +3,7 @@ package com.warehouse.controller;
 import com.warehouse.dto.CustomerDto;
 import com.warehouse.service.CustomerService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CustomerController {
@@ -21,5 +18,10 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDto createCustomer(@RequestBody CustomerDto customerDto){
         return customerService.createCustomer(customerDto);
+    }
+
+    @GetMapping("customer/{id}")
+    public CustomerDto getCustomerById(@RequestParam Long id){
+        return customerService.getCustomerById(id);
     }
 }

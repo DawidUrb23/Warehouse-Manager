@@ -4,6 +4,7 @@ import com.warehouse.dto.CustomerDto;
 import com.warehouse.entity.Customer;
 import com.warehouse.repository.CustomerRepository;
 import com.warehouse.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,12 @@ public class CustomerService {
         Customer customerToSave = modelMapper.map(customerDto, Customer.class);
         Customer customerSaved = customerRepository.save(customerToSave);
         return modelMapper.map(customerSaved, CustomerDto.class);
+    }
+
+    public CustomerDto getCustomerById(Long id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot fin this id" + id));
+        return modelMapper.map(customer, CustomerDto.class);
+
     }
 }
