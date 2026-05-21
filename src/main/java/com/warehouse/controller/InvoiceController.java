@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/invoice")
 public class InvoiceController {
 
     private InvoiceService invoiceService;
@@ -14,14 +15,20 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @PostMapping("/invoice")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public InvoiceDto createInvoice(@RequestBody InvoiceDto invoiceDto){
         return invoiceService.createInvoice(invoiceDto);
     }
 
-    @GetMapping("invoice/{id}")
-    public InvoiceDto getInvoiceById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public InvoiceDto getInvoiceById(@PathVariable Long id){
         return invoiceService.getInvoiceById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteInvoiceById(@PathVariable Long id){
+        invoiceService.deleteInvoiceById(id);
     }
 }

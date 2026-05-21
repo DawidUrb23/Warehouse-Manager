@@ -30,4 +30,10 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find this ID" + id));
         return modelMapper.map(productToGet, ProductDto.class);
     }
+
+    public ProductDto deleteProductById(Long id) {
+        Product productToDelete = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find a product"+id));
+        return modelMapper.map(productToDelete, ProductDto.class);
+    }
 }

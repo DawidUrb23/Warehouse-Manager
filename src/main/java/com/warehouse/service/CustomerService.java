@@ -31,4 +31,10 @@ public class CustomerService {
         return modelMapper.map(customer, CustomerDto.class);
 
     }
+
+    public CustomerDto deleteCustomerById(Long id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find customer with this id " + id));
+        return modelMapper.map(customer, CustomerDto.class);
+    }
 }

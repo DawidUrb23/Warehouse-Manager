@@ -5,6 +5,7 @@ import com.warehouse.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/customer")
 @RestController
 public class CustomerController {
 
@@ -14,14 +15,20 @@ public class CustomerController {
         this.customerService = customerServic;
     }
 
-    @PostMapping("/customer")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDto createCustomer(@RequestBody CustomerDto customerDto){
         return customerService.createCustomer(customerDto);
     }
 
-    @GetMapping("customer/{id}")
-    public CustomerDto getCustomerById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public CustomerDto getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomerById(@PathVariable Long id){
+        customerService.deleteCustomerById(id);
     }
 }

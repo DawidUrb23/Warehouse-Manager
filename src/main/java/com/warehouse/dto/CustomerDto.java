@@ -1,14 +1,13 @@
 package com.warehouse.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Setter
+@Getter 
 public class CustomerDto {
 
     private Long id;

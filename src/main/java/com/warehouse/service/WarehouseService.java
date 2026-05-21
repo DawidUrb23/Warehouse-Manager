@@ -32,4 +32,10 @@ public class WarehouseService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find this id"+ id));
         return modelMapper.map(warehouse, WarehouseDto.class);
     }
+
+    public WarehouseDto deleteWarehouseById(Long id) {
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse with this id "+id));
+        return modelMapper.map(warehouse, WarehouseDto.class);
+    }
 }

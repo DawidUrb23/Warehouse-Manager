@@ -27,7 +27,7 @@ public class Invoice {
 
     private BigDecimal totalSum;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Product> products;
 
     @JoinColumn(name = "customer_id", referencedColumnName = "cusId")

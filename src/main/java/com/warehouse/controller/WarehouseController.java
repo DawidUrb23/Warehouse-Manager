@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/warehouse")
 public class WarehouseController {
 
     private WarehouseService warehouseService;
@@ -16,14 +17,20 @@ public class WarehouseController {
         this.warehouseService = warehouseService;
     }
 
-    @PostMapping("/warehouse")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WarehouseDto createWarehouse(@RequestBody WarehouseDto warehouseDto){
         return warehouseService.createWarehouse(warehouseDto);
     }
 
-    @GetMapping("/warehouse/{id}")
-    public WarehouseDto getWarehouseById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public WarehouseDto getWarehouseById(@PathVariable Long id){
         return warehouseService.getWarehouseById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWarehousById(@PathVariable Long id){
+        warehouseService.deleteWarehouseById(id);
     }
 }
