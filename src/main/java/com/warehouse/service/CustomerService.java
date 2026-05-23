@@ -37,4 +37,27 @@ public class CustomerService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find customer with this id " + id));
         return modelMapper.map(customer, CustomerDto.class);
     }
+
+    public void updateCustomer(CustomerDto customerDto, Long id) {
+        Customer customerToUpdate = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find customer"+id));
+        if(customerDto.getName()!= null){
+            customerToUpdate.setName(customerDto.getName());
+        }
+        if(customerDto.getEmail()!=null){
+            customerToUpdate.setEmail(customerDto.getEmail());
+        }
+        if(customerDto.getAddress() != null){
+            customerToUpdate.setAddress(customerDto.getAddress());
+        }
+        if(customerDto.getSurname()!=null){
+            customerToUpdate.setSurname(customerDto.getSurname());
+        }
+        if(customerDto.getPhoneNumber()!=null){
+            customerToUpdate.setPhoneNumber(customerDto.getPhoneNumber());
+        }
+        customerRepository.save(customerToUpdate);
+        modelMapper.map(customerToUpdate, CustomerDto.class);
+    }
+
 }
