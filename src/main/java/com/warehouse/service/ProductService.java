@@ -36,4 +36,17 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find a product"+id));
         return modelMapper.map(productToDelete, ProductDto.class);
     }
+
+    public void updateProduct(ProductDto productDto, Long id) {
+        Product productToUpdate = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot found a product: " + id));
+        if(productDto.getStatus()!=null){
+            productToUpdate.setStatus(productDto.getStatus());
+        }
+        if(productDto.getSerialNumber()!=null){
+            productToUpdate.setSerialNumber(productDto.getSerialNumber());
+        }
+        productRepository.save(productToUpdate);
+        modelMapper.map(productToUpdate,ProductDto.class);
+    }
 }

@@ -37,4 +37,20 @@ public class InvoiceService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find a Invoice with this id " + id));
         return modelMapper.map(invoice, InvoiceDto.class);
     }
+
+    public void updateInvoice(InvoiceDto invoiceDto, Long id) {
+        Invoice invoiceToUpdate = invoiceRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Cannot found invoice with this id: " + id));
+        if(invoiceDto.getInvoiceNumber()!=null){
+            invoiceToUpdate.setInvoiceNumber(invoiceDto.getInvoiceNumber());
+        }
+        if(invoiceDto.getDateOfIssue()!=null){
+            invoiceToUpdate.setInvoiceNumber(String.valueOf(invoiceDto.getDateOfIssue()));
+        }
+        if(invoiceDto.getTotalSum()!=null){
+            invoiceToUpdate.setTotalSum(invoiceDto.getTotalSum());
+        }
+        invoiceRepository.save(invoiceToUpdate);
+        modelMapper.map(invoiceToUpdate, InvoiceDto.class);
+    }
 }

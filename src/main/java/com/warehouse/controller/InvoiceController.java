@@ -31,4 +31,10 @@ public class InvoiceController {
     public void deleteInvoiceById(@PathVariable Long id){
         invoiceService.deleteInvoiceById(id);
     }
+
+    @PatchMapping("/{id}")
+    public void updateInvoice(@RequestBody InvoiceDto invoiceDto, @PathVariable Long id){
+        invoiceService.updateInvoice(invoiceDto, id);
+    }
+
 }

@@ -38,4 +38,20 @@ public class WarehouseService {
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find warehouse with this id "+id));
         return modelMapper.map(warehouse, WarehouseDto.class);
     }
+
+    public void updateWarehouse(WarehouseDto warehouseDto, Long id) {
+        Warehouse warehouseToUpdate = warehouseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot found a warehouse with this id: " + id));
+        if(warehouseDto.getWarehouseName()!=null){
+            warehouseToUpdate.setWarehouseName(warehouseDto.getWarehouseName());
+        }
+        if(warehouseDto.getCapacity()!=null){
+            warehouseToUpdate.setCapacity(warehouseDto.getCapacity());
+        }
+        if(warehouseDto.getAddress()!=null){
+            warehouseToUpdate.setAddress(warehouseToUpdate.getAddress());
+        }
+        warehouseRepository.save(warehouseToUpdate);
+        modelMapper.map(warehouseToUpdate,warehouseDto.getClass());
+    }
 }

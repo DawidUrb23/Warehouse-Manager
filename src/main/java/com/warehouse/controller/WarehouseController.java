@@ -33,4 +33,9 @@ public class WarehouseController {
     public void deleteWarehousById(@PathVariable Long id){
         warehouseService.deleteWarehouseById(id);
     }
+
+    @PatchMapping("/{id}")
+    public void updateWarehouse(@RequestBody WarehouseDto warehouseDto, @PathVariable Long id){
+        warehouseService.updateWarehouse(warehouseDto,id);
+    }
 }
