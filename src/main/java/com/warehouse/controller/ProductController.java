@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/product")
@@ -27,6 +29,11 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ProductDto getProduct(@PathVariable Long id){
         return productService.getProduct(id);
+    }
+
+    @GetMapping
+    public List<ProductDto> getAllProduct(){
+        return productService.getAllProduct();
     }
 
     @DeleteMapping("/{id}")

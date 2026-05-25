@@ -8,6 +8,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CustomerService {
 
@@ -60,4 +63,10 @@ public class CustomerService {
         modelMapper.map(customerToUpdate, CustomerDto.class);
     }
 
+    public List<CustomerDto> getAllCustomer() {
+        return customerRepository.findAll()
+                .stream()
+                .map(customer -> modelMapper.map(customer,CustomerDto.class))
+                .collect(Collectors.toList());
+    }
 }

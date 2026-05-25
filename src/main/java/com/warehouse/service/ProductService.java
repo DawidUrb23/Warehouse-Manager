@@ -7,6 +7,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductService {
 
@@ -48,5 +51,11 @@ public class ProductService {
         }
         productRepository.save(productToUpdate);
         modelMapper.map(productToUpdate,ProductDto.class);
+    }
+
+    public List<ProductDto> getAllProduct() {
+        return productRepository.findAll().stream()
+                .map(product -> modelMapper.map(product,ProductDto.class))
+                .collect(Collectors.toList());
     }
 }

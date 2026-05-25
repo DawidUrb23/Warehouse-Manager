@@ -5,6 +5,8 @@ import com.warehouse.service.InvoiceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/invoice")
 public class InvoiceController {
@@ -24,6 +26,11 @@ public class InvoiceController {
     @GetMapping("/{id}")
     public InvoiceDto getInvoiceById(@PathVariable Long id){
         return invoiceService.getInvoiceById(id);
+    }
+
+    @GetMapping
+    public List<InvoiceDto> getAllInvoice(){
+        return invoiceService.getAllInvoice();
     }
 
     @DeleteMapping("/{id}")

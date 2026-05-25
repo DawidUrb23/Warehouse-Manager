@@ -8,6 +8,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class WarehouseService {
 
@@ -53,5 +57,11 @@ public class WarehouseService {
         }
         warehouseRepository.save(warehouseToUpdate);
         modelMapper.map(warehouseToUpdate,warehouseDto.getClass());
+    }
+
+    public List<WarehouseDto> getAllWarehouse() {
+        return warehouseRepository.findAll().stream()
+                .map(warehouse -> modelMapper.map(warehouse,WarehouseDto.class))
+                .collect(Collectors.toList());
     }
 }

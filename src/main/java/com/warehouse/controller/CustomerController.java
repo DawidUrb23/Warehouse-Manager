@@ -5,6 +5,8 @@ import com.warehouse.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/customer")
 @RestController
 public class CustomerController {
@@ -24,6 +26,11 @@ public class CustomerController {
     @GetMapping("/{id}")
     public CustomerDto getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
+    }
+
+    @GetMapping
+    public List<CustomerDto> getAllCutomer(){
+        return customerService.getAllCustomer();
     }
 
     @DeleteMapping("/{id}")

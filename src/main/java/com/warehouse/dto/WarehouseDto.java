@@ -1,5 +1,6 @@
 package com.warehouse.dto;
 
+import com.warehouse.entity.Warehouse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,6 @@ public class WarehouseDto {
     private String address;
 
     private Long capacity;
+
+
 }

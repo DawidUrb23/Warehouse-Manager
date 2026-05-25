@@ -7,6 +7,8 @@ import com.warehouse.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/category")
 @RestController
 public class CategoryController {
@@ -26,6 +28,11 @@ public class CategoryController {
     @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable Long id){
         return categoryService.getCategoryById(id);
+    }
+
+    @GetMapping
+    public List<CategoryDto> getAllCategories(){
+        return categoryService.getAllCategories();
     }
 
     @DeleteMapping("/{id}")

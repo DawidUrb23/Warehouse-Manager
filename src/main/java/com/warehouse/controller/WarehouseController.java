@@ -7,6 +7,8 @@ import com.warehouse.service.WarehouseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/warehouse")
 public class WarehouseController {
@@ -26,6 +28,11 @@ public class WarehouseController {
     @GetMapping("/{id}")
     public WarehouseDto getWarehouseById(@PathVariable Long id){
         return warehouseService.getWarehouseById(id);
+    }
+
+    @GetMapping
+    public List<WarehouseDto> getAllWarehouse(){
+        return warehouseService.getAllWarehouse();
     }
 
     @DeleteMapping("/{id}")
