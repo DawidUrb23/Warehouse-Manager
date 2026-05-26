@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -23,13 +26,13 @@ public class Product {
 
     private String status;
 
+    private BigDecimal price;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", referencedColumnName = "catId")
     private Category category;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "invoice_id", referencedColumnName = "invId")
-    private Invoice invoice;
+    @ManyToMany(mappedBy = "products")
+    private List<Invoice> invoice;
 }

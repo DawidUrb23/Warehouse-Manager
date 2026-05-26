@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +22,6 @@ public class InvoiceDto {
     private LocalDate dateOfIssue;
 
     private BigDecimal totalSum;
+
+    public List<Long> productId;
 }

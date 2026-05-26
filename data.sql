@@ -19,8 +19,8 @@ INSERT INTO invoice (invoice_number, date_of_issue, total_sum, customer_id) VALU
 INSERT INTO invoice (invoice_number, date_of_issue, total_sum, customer_id) VALUES ('FV/2023/10/03', '2023-10-05', 3000.00, 1);
 
 -- Produkty
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-EL-001', 'Nowy', 1, 1);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-EL-002', 'Używany', 1, 1);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-NA-001', 'Nowy', 2, 2);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-OD-001', 'Nowy', 3, 3);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-OD-002', 'Nowy', 3, 3);
+INSERT INTO product (serial_number, status, price, category_id, invoice_id) VALUES ('SN-EL-001', 'Nowy', 200, 1, 1);
+INSERT INTO product (serial_number, status, price, category_id, invoice_id) VALUES ('SN-EL-002', 'Używany', 300, 1, 1);
+INSERT INTO product (serial_number, status, price, category_id, invoice_id) VALUES ('SN-NA-001', 'Nowy', 400, 2, 2);
+INSERT INTO product (serial_number, status, price, category_id, invoice_id) VALUES ('SN-OD-001', 'Nowy', 500, 3, 3);
+INSERT INTO product (serial_number, status, price, category_id, invoice_id) VALUES ('SN-OD-002', 'Nowy', 600, 3, 3);
