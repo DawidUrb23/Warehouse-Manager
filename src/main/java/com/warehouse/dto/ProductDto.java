@@ -1,5 +1,6 @@
 package com.warehouse.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,7 @@ public class ProductDto {
     private String status;
 
     private BigDecimal price;
+
+    @JsonIgnoreProperties("products")
+    private List<InvoiceDto> invoices;
 }

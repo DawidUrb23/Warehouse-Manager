@@ -1,6 +1,7 @@
 package com.warehouse.service;
 
 import com.warehouse.dto.InvoiceDto;
+import com.warehouse.dto.ProductDto;
 import com.warehouse.entity.Invoice;
 import com.warehouse.entity.Product;
 import com.warehouse.repository.InvoiceRepository;
@@ -33,11 +34,13 @@ public class InvoiceService {
         BigDecimal sum = BigDecimal.ZERO;
         List<Product>productToList = new ArrayList<>();
 
-        for(Long productId: invoiceDto.productId){
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new EntityNotFoundException("Cannot found product with this ID" + productId));
-            sum = sum.add(product.getPrice());
-            productToList.add(product);
+        if (invoiceDto.getProducts() != null) {
+            for (ProductDto productDto : invoiceDto.getProducts()) {
+                Product product = productRepository.findById(productDto.getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Cannot found product with this ID" + productDto.getId()));
+                sum = sum.add(product.getPrice());
+                productToList.add(product);
+            }
         }
 
         invoiceToSave.setTotalSum(sum);
@@ -55,6 +58,7 @@ public class InvoiceService {
     public InvoiceDto deleteInvoiceById(Long id) {
         Invoice invoice = invoiceRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find a Invoice with this id " + id));
+        invoiceRepository.delete(invoice);
         return modelMapper.map(invoice, InvoiceDto.class);
     }
 
@@ -65,7 +69,7 @@ public class InvoiceService {
             invoiceToUpdate.setInvoiceNumber(invoiceDto.getInvoiceNumber());
         }
         if(invoiceDto.getDateOfIssue()!=null){
-            invoiceToUpdate.setInvoiceNumber(String.valueOf(invoiceDto.getDateOfIssue()));
+            invoiceToUpdate.setDateOfIssue(invoiceDto.getDateOfIssue());
         }
         if(invoiceDto.getTotalSum()!=null){
             invoiceToUpdate.setTotalSum(invoiceDto.getTotalSum());

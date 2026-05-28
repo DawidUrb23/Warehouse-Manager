@@ -1,5 +1,6 @@
 package com.warehouse.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +24,6 @@ public class InvoiceDto {
 
     private BigDecimal totalSum;
 
-    public List<Long> productId;
+    @JsonIgnoreProperties("invoices")
+    private List<ProductDto> products;
 }

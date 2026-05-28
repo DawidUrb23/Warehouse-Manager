@@ -19,8 +19,15 @@ INSERT INTO invoice (invoice_number, date_of_issue, total_sum, customer_id) VALU
 INSERT INTO invoice (invoice_number, date_of_issue, total_sum, customer_id) VALUES ('FV/2023/10/03', '2023-10-05', 3000.00, 1);
 
 -- Produkty
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-EL-001', 'Nowy', 1, 1);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-EL-002', 'Używany', 1, 1);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-NA-001', 'Nowy', 2, 2);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-OD-001', 'Nowy', 3, 3);
-INSERT INTO product (serial_number, status, category_id, invoice_id) VALUES ('SN-OD-002', 'Nowy', 3, 3);
+INSERT INTO product (serial_number, status, price, category_id) VALUES ('SN-EL-001', 'Nowy', 199.99, 1);
+INSERT INTO product (serial_number, status, price, category_id) VALUES ('SN-EL-002', 'Używany', 99.99, 1);
+INSERT INTO product (serial_number, status, price, category_id) VALUES ('SN-NA-001', 'Nowy', 49.99, 2);
+INSERT INTO product (serial_number, status, price, category_id) VALUES ('SN-OD-001', 'Nowy', 29.99, 3);
+INSERT INTO product (serial_number, status, price, category_id) VALUES ('SN-OD-002', 'Nowy', 39.99, 3);
+
+-- Tabela łącząca produkty z fakturami
+INSERT INTO invoice_product (invoice_id, product_id) VALUES (1, 1);
+INSERT INTO invoice_product (invoice_id, product_id) VALUES (1, 2);
+INSERT INTO invoice_product (invoice_id, product_id) VALUES (2, 3);
+INSERT INTO invoice_product (invoice_id, product_id) VALUES (3, 4);
+INSERT INTO invoice_product (invoice_id, product_id) VALUES (3, 5);

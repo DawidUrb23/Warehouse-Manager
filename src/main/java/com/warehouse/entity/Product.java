@@ -34,5 +34,5 @@ public class Product {
     private Category category;
 
     @ManyToMany(mappedBy = "products")
-    private List<Invoice> invoice;
+    private List<Invoice> invoices;
 }
