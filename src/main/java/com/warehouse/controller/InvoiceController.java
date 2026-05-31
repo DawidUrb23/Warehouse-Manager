@@ -33,6 +33,11 @@ public class InvoiceController {
         return invoiceService.getAllInvoice();
     }
 
+    @GetMapping("/date")
+    public List<InvoiceDto> getInvoiceByDate(@RequestParam String date){
+        return invoiceService.getInvoiceByDate(date);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceById(@PathVariable Long id){

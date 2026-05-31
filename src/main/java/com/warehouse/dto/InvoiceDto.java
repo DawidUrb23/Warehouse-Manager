@@ -1,10 +1,7 @@
 package com.warehouse.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Setter
+@Getter
 public class InvoiceDto {
 
     private Long id;

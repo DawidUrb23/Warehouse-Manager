@@ -1,15 +1,14 @@
 package com.warehouse.dto;
 
 import com.warehouse.entity.Warehouse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Setter
+@Getter
 public class WarehouseDto {
 
     private Long id;
