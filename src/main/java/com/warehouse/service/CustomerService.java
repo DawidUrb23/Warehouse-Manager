@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,5 +69,26 @@ public class CustomerService {
                 .stream()
                 .map(customer -> modelMapper.map(customer,CustomerDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<CustomerDto> getCustomerBySurname(String surname) {
+        List<Customer> customers = customerRepository.findAll();
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        for(Customer customer: customers){
+            if(customer.getSurname().equals(surname)){
+                customerDtos.add(CustomerDto.builder()
+                                .surname(customer.getSurname())
+                                .email(customer.getEmail())
+                                .name(customer.getName())
+                                .address(customer.getAddress())
+                                .phoneNumber(customer.getPhoneNumber())
+                                .id(customer.getId())
+                        .build());
+            }
+        }
+        if(customerDtos.isEmpty()){
+            throw new EntityNotFoundException("Cannot found an customer with this surname: "+ surname);
+        }
+        return customerDtos;
     }
 }

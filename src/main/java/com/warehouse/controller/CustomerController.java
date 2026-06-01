@@ -33,6 +33,11 @@ public class CustomerController {
         return customerService.getAllCustomer();
     }
 
+    @GetMapping("/search")
+    public List<CustomerDto> getCustomerBySurname(@RequestParam(name = "name") String surname){
+        return customerService.getCustomerBySurname(surname);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomerById(@PathVariable Long id){
