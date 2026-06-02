@@ -1,14 +1,15 @@
 package com.warehouse.dto;
 
 import lombok.*;
+//import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @Setter
-@Getter 
-public class CustomerDto {
+@Getter
+public class CustomerDto{ //extends RepresentationModel<CustomerDto> {
 
     private Long id;
 
