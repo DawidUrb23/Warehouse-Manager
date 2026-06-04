@@ -38,6 +38,11 @@ public class InvoiceController {
         return invoiceService.getInvoiceByDate(date);
     }
 
+    @GetMapping("/datebetween")
+    public List<InvoiceDto> getInvoiceDateBetween(@RequestParam String startDate, @RequestParam String endDate){
+        return invoiceService.getInvoiceDateBetween();
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceById(@PathVariable Long id){
