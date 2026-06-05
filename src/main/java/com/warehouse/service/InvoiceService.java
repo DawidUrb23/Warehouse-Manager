@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,12 +104,20 @@ public class InvoiceService {
                         .build());
             }
         }
-        if(invoiceDtos.isEmpty()){
+        if (invoiceDtos.isEmpty()) {
             throw new EntityNotFoundException("Cannot found invoice with this date.");
         }
         return invoiceDtos;
     }
 
-    public List<InvoiceDto> getInvoiceDateBetween() {
+    public List<InvoiceDto> getInvoiceDateBetween(String startDateString, String endDateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate startDate = LocalDate.parse(startDateString, formatter);
+        LocalDate endDate = LocalDate.parse(endDateString, formatter);
+        List<Invoice> invoices = invoiceRepository.findByDateOfIssueBetween(startDate, endDate);
+
+        return invoices.stream()
+                .map(invoice -> modelMapper.map(invoice, InvoiceDto.class))
+                .collect(Collectors.toList());
     }
 }

@@ -40,7 +40,7 @@ public class InvoiceController {
 
     @GetMapping("/datebetween")
     public List<InvoiceDto> getInvoiceDateBetween(@RequestParam String startDate, @RequestParam String endDate){
-        return invoiceService.getInvoiceDateBetween();
+        return invoiceService.getInvoiceDateBetween(startDate, endDate);
     }
 
     @DeleteMapping("/{id}")
