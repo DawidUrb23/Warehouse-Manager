@@ -2,6 +2,7 @@ package com.warehouse.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProductDto {
+public class ProductDto extends RepresentationModel<ProductDto> {
 
     private Long id;
 

@@ -2,6 +2,7 @@ package com.warehouse.dto;
 
 import com.warehouse.entity.Warehouse;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @AllArgsConstructor
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
-public class WarehouseDto {
+public class WarehouseDto extends RepresentationModel<WarehouseDto> {
 
     private Long id;
 
