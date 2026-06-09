@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/invoice")
 public class InvoiceController {
 
-    private InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     public InvoiceController(InvoiceService invoiceService){
         this.invoiceService = invoiceService;
@@ -20,27 +23,47 @@ public class InvoiceController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public InvoiceDto createInvoice(@RequestBody InvoiceDto invoiceDto){
-        return invoiceService.createInvoice(invoiceDto);
+        InvoiceDto invoice = invoiceService.createInvoice(invoiceDto);
+        invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(invoice.getId())).withSelfRel());
+        return invoice;
     }
 
     @GetMapping("/{id}")
     public InvoiceDto getInvoiceById(@PathVariable Long id){
-        return invoiceService.getInvoiceById(id);
+        InvoiceDto invoice = invoiceService.getInvoiceById(id);
+
+        invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(id)).withSelfRel());
+        invoice.add(linkTo(methodOn(InvoiceController.class).getAllInvoice()).withRel("get_all_invoices"));
+        invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(id)).withRel("edit_this_invoice"));
+
+        return invoice;
     }
 
     @GetMapping
     public List<InvoiceDto> getAllInvoice(){
-        return invoiceService.getAllInvoice();
+        List<InvoiceDto> invoices = invoiceService.getAllInvoice();
+        for(InvoiceDto invoice : invoices){
+            invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(invoice.getId())).withSelfRel());
+        }
+        return invoices;
     }
 
     @GetMapping("/date")
     public List<InvoiceDto> getInvoiceByDate(@RequestParam String date){
-        return invoiceService.getInvoiceByDate(date);
+        List<InvoiceDto> invoices = invoiceService.getInvoiceByDate(date);
+        for(InvoiceDto invoice : invoices){
+            invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(invoice.getId())).withSelfRel());
+        }
+        return invoices;
     }
 
     @GetMapping("/datebetween")
     public List<InvoiceDto> getInvoiceDateBetween(@RequestParam String startDate, @RequestParam String endDate){
-        return invoiceService.getInvoiceDateBetween(startDate, endDate);
+        List<InvoiceDto> invoices = invoiceService.getInvoiceDateBetween(startDate, endDate);
+        for(InvoiceDto invoice : invoices){
+            invoice.add(linkTo(methodOn(InvoiceController.class).getInvoiceById(invoice.getId())).withSelfRel());
+        }
+        return invoices;
     }
 
     @DeleteMapping("/{id}")
@@ -50,6 +73,7 @@ public class InvoiceController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateInvoice(@RequestBody InvoiceDto invoiceDto, @PathVariable Long id){
         invoiceService.updateInvoice(invoiceDto, id);
     }
