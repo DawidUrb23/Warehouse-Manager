@@ -12,12 +12,11 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "warehouse")
 public class Warehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "warId")
+    @Column(name = "war_id")
     private Long id;
 
     private String warehouseName;
@@ -26,7 +25,7 @@ public class Warehouse {
 
     private Long capacity;
 
-    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "warehouse")
     private List<Category> categories;
 
 

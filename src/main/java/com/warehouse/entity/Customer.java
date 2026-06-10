@@ -11,12 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "customer")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cusId")
+    @Column(name = "cus_id")
     private Long id;
 
     private String name;
@@ -29,7 +28,7 @@ public class Customer {
 
     private String address;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Invoice> invoices;
 
 }

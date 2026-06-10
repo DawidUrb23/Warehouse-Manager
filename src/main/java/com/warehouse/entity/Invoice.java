@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "invoice")
 public class Invoice {
 
     @Id
@@ -27,15 +26,10 @@ public class Invoice {
 
     private BigDecimal totalSum;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name="invoice_product",
-            joinColumns = @JoinColumn(name = "invoice_id", referencedColumnName = "invId"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "proId")
-    )
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
     private List<Product> products;
 
     @JoinColumn(name = "customer_id", referencedColumnName = "cusId")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private  Customer customer;
 }

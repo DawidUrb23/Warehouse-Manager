@@ -8,18 +8,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "proId")
+    @Column(name = "pro_id")
     private Long id;
 
     private String serialNumber;
@@ -29,10 +27,11 @@ public class Product {
     private BigDecimal price;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "catId")
     private Category category;
 
-    @ManyToMany(mappedBy = "products")
-    private List<Invoice> invoices;
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", referencedColumnName = "invId")
+    private Invoice invoice;
 }

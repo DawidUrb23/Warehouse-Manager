@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,5 +23,5 @@ public class ProductDto extends RepresentationModel<ProductDto> {
     private BigDecimal price;
 
     @JsonIgnoreProperties("products")
-    private List<InvoiceDto> invoices;
+    private InvoiceDto invoice;
 }
