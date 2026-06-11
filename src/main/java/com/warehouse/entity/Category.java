@@ -30,7 +30,7 @@ public class Category {
     private List<Product> products;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Warehouse warehouse;
 
 }

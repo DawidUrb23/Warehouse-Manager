@@ -22,6 +22,8 @@ public class ProductDto extends RepresentationModel<ProductDto> {
 
     private BigDecimal price;
 
+    private Long categoryId;
+
     @JsonIgnoreProperties("products")
     private InvoiceDto invoice;
 }

@@ -1,8 +1,10 @@
 package com.warehouse.service;
 
 import com.warehouse.dto.ProductDto;
+import com.warehouse.dto.WarehouseDto;
 import com.warehouse.entity.Product;
 import com.warehouse.repository.ProductRepository;
+import com.warehouse.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,20 @@ public class ProductService {
 
 
     private final ProductRepository productRepository;
+    private final WarehouseRepository warehouseRepository;
     private final ModelMapper modelMapper;
 
-    public ProductService(ModelMapper modelMapper, ProductRepository productRepository){
+    public ProductService(ModelMapper modelMapper, ProductRepository productRepository, WarehouseRepository warehouseRepository){
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.warehouseRepository = warehouseRepository;
     }
 
     public ProductDto createProduct(ProductDto productDto) {
         Product productToSave = modelMapper.map(productDto, Product.class);
+        WarehouseDto warehouseDto = new WarehouseDto();
+        long countProducts = productRepository.countByProductId(productDto.getId());
+        if(countProducts )
         Product productSaved = productRepository.save(productToSave);
         return modelMapper.map(productSaved, ProductDto.class);
     }
