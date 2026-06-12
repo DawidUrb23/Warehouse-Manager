@@ -29,7 +29,7 @@ public class Invoice {
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
     private List<Product> products;
 
-    @JoinColumn(name = "customer_id", referencedColumnName = "cusId")
+    @JoinColumn(name = "customer_id", referencedColumnName = "cus_id")
     @ManyToOne
     private  Customer customer;
 }

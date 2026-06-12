@@ -56,7 +56,6 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    @JsonIgnore
     public void updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long id){
         categoryService.updateCategory(categoryDto,id);
     }

@@ -2,6 +2,7 @@ package com.warehouse.service;
 
 import com.warehouse.dto.CategoryDto;
 import com.warehouse.entity.Category;
+import com.warehouse.exception.CategoryNotEmptyException;
 import com.warehouse.repository.CategoryRepository;
 import com.warehouse.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,13 +19,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
-    public CategoryService(ModelMapper modelMapper, CategoryRepository categoryRepository){
+    public CategoryService(ModelMapper modelMapper, CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
     }
 
-    public CategoryDto createCategory(CategoryDto categoryDto)
-    {
+    public CategoryDto createCategory(CategoryDto categoryDto) {
         Category categoryToSave = modelMapper.map(categoryDto, Category.class);
         Category savedCategory = categoryRepository.save(categoryToSave);
         return modelMapper.map(savedCategory, CategoryDto.class);
@@ -46,6 +46,11 @@ public class CategoryService {
     public CategoryDto deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find this id" + id));
+
+        if (!category.getProducts().isEmpty()) {
+            throw new CategoryNotEmptyException("Cannot delete category with products in it");
+        }
+
         categoryRepository.delete(category);
         return modelMapper.map(category, CategoryDto.class);
     }
@@ -53,16 +58,16 @@ public class CategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto, Long id) {
         Category categoryToUpdate = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find category with this id" + id));
-        if(categoryDto.getDescription()!=null){
+        if (categoryDto.getDescription() != null) {
             categoryToUpdate.setDescription(categoryDto.getDescription());
         }
-        if(categoryDto.getTypeName()!=null){
+        if (categoryDto.getTypeName() != null) {
             categoryToUpdate.setTypeName(categoryDto.getTypeName());
         }
-        if(categoryDto.getProducts()!=null){
+        if (categoryDto.getProducts() != null) {
             categoryToUpdate.setProducts(categoryDto.getProducts());
         }
-        if(categoryDto.getWarehouse()!=null){
+        if (categoryDto.getWarehouse() != null) {
             categoryToUpdate.setWarehouse(categoryDto.getWarehouse());
         }
         categoryRepository.save(categoryToUpdate);

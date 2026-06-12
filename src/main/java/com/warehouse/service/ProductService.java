@@ -2,7 +2,10 @@ package com.warehouse.service;
 
 import com.warehouse.dto.ProductDto;
 import com.warehouse.dto.WarehouseDto;
+import com.warehouse.entity.Category;
 import com.warehouse.entity.Product;
+import com.warehouse.entity.Warehouse;
+import com.warehouse.repository.CategoryRepository;
 import com.warehouse.repository.ProductRepository;
 import com.warehouse.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,18 +22,32 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
     private final ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ModelMapper modelMapper, ProductRepository productRepository, WarehouseRepository warehouseRepository){
+    public ProductService(ModelMapper modelMapper, ProductRepository productRepository, WarehouseRepository warehouseRepository, CategoryRepository categoryRepository){
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.warehouseRepository = warehouseRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public ProductDto createProduct(ProductDto productDto) {
+        if(productDto.getCategoryId() == null){
+            throw new IllegalArgumentException("You must add category id for new Product");
+        }
+        Category category = categoryRepository.findById(productDto.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found."));
+        Warehouse warehouse = category.getWarehouse();
+        if(warehouse == null){
+            throw new IllegalStateException("Category is not assigned to any warehouse");
+        }
+        long currentProductsCount = productRepository.countByCategory_Warehouse_Id(warehouse.getId());
+        if(currentProductsCount >= warehouse.getCapacity()){
+            throw new RuntimeException("Warehouse " + warehouse.getWarehouseName() + " is acctualy full max capacity is "+ warehouse.getCapacity());
+        }
         Product productToSave = modelMapper.map(productDto, Product.class);
         WarehouseDto warehouseDto = new WarehouseDto();
-        long countProducts = productRepository.countByProductId(productDto.getId());
-        if(countProducts )
+        productToSave.setCategory(category);
         Product productSaved = productRepository.save(productToSave);
         return modelMapper.map(productSaved, ProductDto.class);
     }
