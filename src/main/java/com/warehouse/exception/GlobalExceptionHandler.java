@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneralException(Exception ex){
+    public ResponseEntity<Object> handleGeneralException(Exception ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -48,11 +48,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CategoryNotEmptyException.class)
-        public ResponseEntity<Object> handleCategoryNotEmptyException (CategoryNotEmptyException ex){
-            Map<String, Object> body = new LinkedHashMap<>();
-            body.put("timestamp", LocalDateTime.now());
-            body.put("status", HttpStatus.CONFLICT.value());
-            body.put("message", "Conflict you cannot delete Category with products assigned to it");
-            return new ResponseEntity<>(body, HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Object> handleCategoryNotEmptyException(CategoryNotEmptyException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("error", "Conflict");
+        body.put("message", "Conflict you cannot delete Category with products assigned to it");
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ProductNotAvailableException.class)
+    public ResponseEntity<Object> handleProductNotAvailableException(ProductNotAvailableException ex){
+        Map<String, Object>body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("error", "Conflict");
+        body.put("message", "Conflict product is not avaiable");
+        return new ResponseEntity<>(body,HttpStatus.CONFLICT);
+    }
 }

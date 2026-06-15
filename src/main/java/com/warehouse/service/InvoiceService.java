@@ -4,6 +4,7 @@ import com.warehouse.dto.InvoiceDto;
 import com.warehouse.dto.ProductDto;
 import com.warehouse.entity.Invoice;
 import com.warehouse.entity.Product;
+import com.warehouse.exception.ProductNotAvailableException;
 import com.warehouse.repository.InvoiceRepository;
 import com.warehouse.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +44,9 @@ public class InvoiceService {
             for (ProductDto productDto : invoiceDto.getProducts()) {
                 Product product = productRepository.findById(productDto.getId())
                         .orElseThrow(() -> new EntityNotFoundException("Cannot found product with this ID" + productDto.getId()));
-                sum = sum.add(product.getPrice());
+                if (product.getPrice() != null) {
+                    sum = sum.add(product.getPrice());
+                }
                 productToList.add(product);
             }
         }
@@ -119,5 +122,19 @@ public class InvoiceService {
         return invoices.stream()
                 .map(invoice -> modelMapper.map(invoice, InvoiceDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public void assignProductsToInvoice(Long id, List<Long> productsIds) {
+        Invoice invoice = invoiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find invoice with this id: " + id));
+        List<Product>products = productRepository.findAllById(productsIds);
+        for(Product product : products){
+            if(!product.getStatus().equalsIgnoreCase("AVAILABLE")){
+                throw new ProductNotAvailableException("Product with this id "+ product.getId()+ " is not available");
+            }
+            product.setInvoice(invoice);
+            product.setStatus("SOLD");
+        }
+        productRepository.saveAll(products);
     }
 }

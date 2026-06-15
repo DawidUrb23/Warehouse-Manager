@@ -3,6 +3,7 @@ package com.warehouse.controller;
 import com.warehouse.dto.InvoiceDto;
 import com.warehouse.service.InvoiceService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -76,6 +77,12 @@ public class InvoiceController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateInvoice(@RequestBody InvoiceDto invoiceDto, @PathVariable Long id){
         invoiceService.updateInvoice(invoiceDto, id);
+    }
+
+    @PostMapping("{id}/assign-products")
+    public ResponseEntity<String> assignProductsToInvoice(@PathVariable Long id, @RequestBody List<Long> productsIds){
+        invoiceService.assignProductsToInvoice(id, productsIds);
+        return ResponseEntity.ok("Product added succesfully and assigned as sold.");
     }
 
 }

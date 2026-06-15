@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -54,5 +55,10 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@RequestBody ProductDto productDto, @PathVariable Long id){
         productService.updateProduct(productDto, id);
+    }
+
+    @PatchMapping("/{id}/update-price")
+    public ProductDto updateProductPrice(@PathVariable Long id, @RequestParam(name = "percentage") BigDecimal amount){
+        return productService.updateProductPrice(id,amount);
     }
 }

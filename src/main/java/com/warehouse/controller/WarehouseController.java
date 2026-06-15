@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -57,5 +58,15 @@ public class WarehouseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateWarehouse(@RequestBody WarehouseDto warehouseDto, @PathVariable Long id){
         warehouseService.updateWarehouse(warehouseDto,id);
+    }
+
+    @GetMapping("/categories/{categoryId}/stock")
+    public long getProductCountForCategory(@PathVariable long categoryId){
+        return warehouseService.getProductCountForCategory(categoryId);
+    }
+
+    @GetMapping("/{warehouseId}/stock-report")
+    public Map<String, Long> getWarehouseReport(@PathVariable long warehouseId){
+        return warehouseService.getWarehouseStockReport(warehouseId);
     }
 }

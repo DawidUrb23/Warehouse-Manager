@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ public class ProductService {
     public ProductDto deleteProductById(Long id) {
         Product productToDelete = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cannot find a product"+id));
+        productRepository.delete(productToDelete);
         return modelMapper.map(productToDelete, ProductDto.class);
     }
 
@@ -81,5 +83,20 @@ public class ProductService {
         return productRepository.findAll().stream()
                 .map(product -> modelMapper.map(product,ProductDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public ProductDto updateProductPrice(Long id, BigDecimal amount) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Cannot found product with this id: " + id));
+        if(amount.compareTo(BigDecimal.ZERO) == 0){
+            throw new IllegalArgumentException("Discount amount cannot be 0.");
+        }
+        BigDecimal sale = product.getPrice();
+        BigDecimal precent = BigDecimal.ONE.subtract(amount.divide(new BigDecimal("100")));
+
+        sale = sale.multiply(precent);
+        product.setPrice(sale);
+        productRepository.save(product);
+        return modelMapper.map(product, ProductDto.class);
     }
 }
